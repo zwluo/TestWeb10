@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{static/jquery/jquery-3.4.1.js}"></script>
+    <link rel="stylesheet" th:href="@{static/dependency/layui/css/layui.css}">
+</head>
+<body>
+<input type="button" onclick="search()" value="开始"/>
+<script>
+    function search() {
+        var ctxPath = localStorage.getItem("ctxPath");
+        $.ajax({
+            type: 'post',
+            url: ctxPath + "/pachong.do",
+            success: function(result) {
+                alert(result);
+            }
+        });
+
+
+    }
+
+</script>
+
+<div>
+    <button type="button" class="layui-btn layui-btn-primary">原始按钮</button>
+    <button type="button" class="layui-btn">默认按钮</button>
+    <button type="button" class="layui-btn layui-btn-normal">百搭按钮</button>
+    <button type="button" class="layui-btn layui-btn-warm">暖色按钮</button>
+    <button type="button" class="layui-btn layui-btn-danger">警告按钮</button>
+    <button type="button" class="layui-btn layui-btn-disabled">禁用按钮</button>
+</div>
+
+</body>
+</html>

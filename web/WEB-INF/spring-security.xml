@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans" xmlns:security="http://www.springframework.org/schema/p"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+
+    <http>
+        <intercept-url pattern="/static/**" access="permitAll()"/>
+        <intercept-url pattern="/login.do" access="permitAll()"></intercept-url>
+        <intercept-url pattern="/**" access="hasRole('ROLE_USER')"></intercept-url>
+
+        <form-login login-page="/login.do" login-processing-url="/login" default-target-url="/index.do" always-use-default-target="true"></form-login>
+
+        <logout logout-url="/logout" logout-success-url="/login.do" invalidate-session="true"></logout>
+
+        <csrf disabled="true"/>
+        <headers>
+            <frame-options policy="SAMEORIGIN"></frame-options>
+        </headers>
+    </http>
+
+    <authentication-manager>
+        <authentication-provider user-service-ref="myUserService">
+            <password-encoder ref="bcryptPasswordEncoder"/>
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean id="myUserService" class="com.service.MyUserServiceImpl"/>
+
+    <beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+</beans:beans>
